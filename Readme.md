@@ -1,0 +1,1 @@
+This is manual for different features in asp.net
