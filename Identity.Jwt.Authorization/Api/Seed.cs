@@ -16,18 +16,12 @@ namespace Api
         {
             if (!await _roleManager.RoleExistsAsync(Enviroment.Roles.ADMIN))
             {
-                await _roleManager.CreateAsync(new IdentityRole
-                {
-                    Name = Enviroment.Roles.ADMIN
-                });
+                await _roleManager.CreateAsync(new IdentityRole(Enviroment.Roles.ADMIN));
             }
             
             if (!await _roleManager.RoleExistsAsync(Enviroment.Roles.USER))
             {
-                await _roleManager.CreateAsync(new IdentityRole
-                {
-                    Name = Enviroment.Roles.USER
-                });
+                await _roleManager.CreateAsync(new IdentityRole(Enviroment.Roles.USER));
             }
         }
     }

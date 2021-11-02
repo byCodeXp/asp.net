@@ -18,20 +18,21 @@ namespace Api.Helpers
             
             var secret = Encoding.ASCII.GetBytes(_jwtConfiguration.Secret);
             var symmetricSecurityKey = new SymmetricSecurityKey(secret);
-            
-            _signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha512Signature);
+            var alg = SecurityAlgorithms.HmacSha512Signature;
+
+            _signingCredentials = new SigningCredentials(symmetricSecurityKey, alg);
         }
         
-        public string GenerateToken(string userId, string role)
+        public string GenerateToken(string userId, string roles)
         {
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("id", userId),
-                    new Claim("role", role)
+                    new Claim("role", roles),
                 }),
-                Expires = DateTime.UtcNow.Add(TimeSpan.FromSeconds(_jwtConfiguration.Lifetime)),
+                Expires = DateTime.UtcNow.Add(_jwtConfiguration.LifeTime),
                 SigningCredentials = _signingCredentials
             };
 

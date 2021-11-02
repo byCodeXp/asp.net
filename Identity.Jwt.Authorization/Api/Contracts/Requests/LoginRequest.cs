@@ -1,4 +1,4 @@
-﻿namespace Models.Requests
+﻿namespace Api.Contracts.Requests
 {
     public class LoginRequest
     {

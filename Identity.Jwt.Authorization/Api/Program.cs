@@ -13,12 +13,12 @@ namespace Api
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            return Host
-                .CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+            var hostBuilder = Host.CreateDefaultBuilder(args);
+            hostBuilder.ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+            return hostBuilder;
         }
     }
 }

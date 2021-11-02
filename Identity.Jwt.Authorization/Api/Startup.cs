@@ -1,10 +1,6 @@
 using System.Text;
 using Api.Configurations;
-using Data;
 using Api.Helpers;
-using Api.Middlewares;
-using Api.Services;
-using Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Api.Data;
+using Api.Data.Entities;
 
 namespace Api
 {
@@ -27,7 +25,6 @@ namespace Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Add database context
@@ -45,12 +42,6 @@ namespace Api
             // Helpers
             services.AddTransient<JwtHelper>();
             
-            // Services
-            services.AddTransient<IdentityService>();
-            
-            // Add mapper
-            services.AddAutoMapper(typeof(MapperProfile));
-
             // JwtConfiguration
             var jwtConfiguration = new JwtConfiguration();
             Configuration.Bind(nameof(jwtConfiguration), jwtConfiguration);
@@ -88,7 +79,6 @@ namespace Api
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -98,8 +88,6 @@ namespace Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api v1"));
             }
 
-            app.UseMiddleware<ExceptionsHandlerMiddleware>();
-            
             app.UseHttpsRedirection();
 
             app.UseRouting();
